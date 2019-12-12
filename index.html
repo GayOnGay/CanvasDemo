@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="asd.css">
+</head>
+<style>
+    body{
+        background: black;
+    } 
+</style>
+<body>
+    <div di="asd">
+        <canvas id="myCanvas"></canvas>
+        <div class="logo_box">
+				<h3>欢迎登录</h3>
+				<form action="#" name="f" method="post">
+					<div class="input_outer">
+						<span class="u_user"></span>
+						<input name="logname" class="text" style="color: #FFFFFF !important" type="text" placeholder="请输入账户">
+					</div>
+					<div class="input_outer">
+						<span class="us_uer"></span>
+						<input name="logpass" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;"value="" type="password" placeholder="请输入密码">
+					</div>
+					<div class="mb2"><a class="act-but submit" href="javascript:;" style="color: #FFFFFF">登录</a></div>
+				</form>
+			</div>
+    
+    </div>
+    <script type="text/javascript">
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+        
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+        
+        function Ball(x,y){
+            this.x = x;
+            this.y = y;
+            this.r = 30;
+            this.color = "orange";
+            this.dx = parseInt(Math.random()*16)-8;
+            this.dy = parseInt(Math.random()*16)-8;
+            ballsArr.push(this);
+        }
+        Ball.prototype.render = function(){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.r,0,Math.PI * 2,true);
+            ctx.closePath();
+            ctx.fillStyle=this.color;
+            ctx.fill();
+        }
+        Ball.prototype.update =function(){
+            this.x += this.dx ;
+            this.y += this.dy ;
+            this.r --;
+            if(this.r<0){
+                this.godie();
+            }
+        }
+        Ball.prototype.godie = function(){
+            for(var i=0;i<ballsArr.length;i++){
+                if(ballsArr[i] === this){
+                    ballsArr.splice(i,1);
+                }
+            }
+        }
+        var ballsArr = [];
+        canvas.onmousemove = function(event){
+            new Ball(event.clientX,event.clientY)
+        }
+        setInterval(function(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            for(var i=0;i<ballsArr.length;i++){
+                ballsArr[i].update();
+                ballsArr[i] && ballsArr[i].render();
+            }
+          
+        },20)
+    </script>
+            
+        
+</body>
+</html>
